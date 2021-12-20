@@ -13,6 +13,6 @@ if response.ok:
     for repo in repos_data:
         print(f"{repo['name']} - {repo['url']}")
     with open('repos.json', 'w', encoding='utf-8') as f_n:
-        f_n.write(response.text)
+        f_n.write(json.dumps(repos_data))
 else:
     print(f'Error: status_code: {response.status_code}')
