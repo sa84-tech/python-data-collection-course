@@ -1,10 +1,32 @@
+import os
+import re
+import sys
+
 from bs4 import BeautifulSoup as bs
 import requests
-import re
 from pprint import pprint
+from pymongo import MongoClient
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+
 
 JOBLIST_URL = 'https://spb.superjob.ru'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:95.0) Gecko/20100101 Firefox/95.0'}
+
+DB_URI = os.environ.get('DB_URI')
+DB_NAME = os.environ.get('DB_NAME')
+
+try:
+    CLIENT = MongoClient(DB_URI)
+    DB = CLIENT[DB_NAME]
+    print(CLIENT)
+    print(DB)
+except Exception as e:
+    print(e)
+    sys.exit(1)
+
+vacancies_collection = DB.vacancies
 
 
 def parse_salary_string(salary_string):
@@ -92,6 +114,10 @@ def main():
             print('Result:')
             pprint(vacancies)
             print(f'Total number of vacancies for the position of an "{position}": {len(vacancies)}')
+            try:
+                vacancies_collection.insert_many(vacancies)
+            except Exception as ee:
+                print(ee)
 
         else:
             print(f'Error: Something went wrong! Status code:', response.status_code)
