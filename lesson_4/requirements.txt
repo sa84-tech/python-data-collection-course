@@ -1,0 +1,5 @@
+dateparser
+lxml
+pymongo[srv]
+python-dotenv
+requests
