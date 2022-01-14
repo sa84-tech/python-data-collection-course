@@ -5,12 +5,12 @@ from leroy_parser import settings
 from leroy_parser.spiders.LeroyMerlin import LeroymerlinSpider
 
 if __name__ == '__main__':
-    category = 'mebel-dlya-vannoy-komnaty'
+    search = 'Кухни'
 
     crawler_settings = Settings()
     crawler_settings.setmodule(settings)
 
     process = CrawlerProcess(settings=crawler_settings)
-    process.crawl(LeroymerlinSpider, category)
+    process.crawl(LeroymerlinSpider, search)
 
     process.start()
