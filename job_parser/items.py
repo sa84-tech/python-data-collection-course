@@ -11,4 +11,6 @@ class JobParserItem(scrapy.Item):
     question_number = scrapy.Field()
     question_text = scrapy.Field()
     answers = scrapy.Field()
+    correct = scrapy.Field()
+    correct_answers = scrapy.Field()
     _id = scrapy.Field()

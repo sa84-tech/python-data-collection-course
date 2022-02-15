@@ -10,7 +10,7 @@ if __name__ == '__main__':
     crawler_settings.setmodule(settings)
 
     process = CrawlerProcess(settings=crawler_settings)
-    process.crawl(HhruSpider)
+    process.crawl(HhruSpider, 'https://prombez24.com/tests/208')
     # process.crawl(SuperjobruSpider)
 
     process.start()

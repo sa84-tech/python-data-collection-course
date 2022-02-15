@@ -22,13 +22,15 @@ DB_URI = os.environ.get('DB_URI')
 class JobParserPipeline:
     def __init__(self):
         client = MongoClient(DB_URI)
-        self.mongobase = client.job_parser_scrapy
+        self.collection = client.prom_bez['group-3-up-to-1000V']
 
     def process_item(self, item, spider):
-        print(item)
+        # print('PREV ITEM:', item)
         item['_id'] = hashlib.md5(item['question_text'].encode()).hexdigest()
         item['question_number'] = int(item['question_number'].split('#')[-1])
-        # collection = self.mongobase['PromBez24']
-        # collection.update_one({'_id': item['_id']}, {'$set': item}, upsert=True)
-        print(item)
+        item['correct_answers'] = [ans for i, ans in enumerate(item['answers']) if item['correct'][i] == 'true']
+        del item['answers']
+        del item['correct']
+        self.collection.update_one({'_id': item['_id']}, {'$set': item}, upsert=True)
+        # print('FINAL ITEM:', item)
         return item
