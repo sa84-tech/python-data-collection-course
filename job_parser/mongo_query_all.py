@@ -17,9 +17,7 @@ result = list(collection.find({}, {'question_number': 1, 'question_text': 1, 'co
 with open('answers.txt', 'w', encoding='utf-8') as f_n:
     for item in result:
         f_n.write(f"{item['question_number']}. {item['question_text']}\n  * {item['correct_answers'][0]}\n\n")
-    # for chunk in json.JSONEncoder(ensure_ascii=False, indent=4).iterencode(result):
-    #     print(chunk)
-    #     f_n.write(chunk)
+
 
 print('Done')
 
